@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Create base query for the original base URL
 const baseQuery = fetchBaseQuery({
-    baseUrl: `http://localhost:5000/api/v1/`,
+    baseUrl: `https://ctm-sercer.vercel.app/api/v1/`,
 });
 
 export const api = createApi({

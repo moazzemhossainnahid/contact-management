@@ -34,7 +34,7 @@ const ContactCard: React.FC<Props> = ({ contact }) => {
             cancelButtonText: "No, keep it",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const resData = await fetch(`http://localhost:5000/api/v1/contacts/${id}`, {
+                const resData = await fetch(`https://ctm-sercer.vercel.app/api/v1/contacts/${id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",

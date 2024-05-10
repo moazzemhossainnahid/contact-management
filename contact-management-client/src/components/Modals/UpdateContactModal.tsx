@@ -39,7 +39,7 @@ const UpdateContactModal: React.FC<UpdateContactModalProps> = ({ updateContact }
         };
 
         // send to database
-        fetch(`http://localhost:5000/api/v1/contacts/${_id}`, {
+        fetch(`https://ctm-sercer.vercel.app/api/v1/contacts/${_id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",

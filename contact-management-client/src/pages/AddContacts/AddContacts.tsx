@@ -41,7 +41,7 @@ const AddContacts: React.FC = () => {
                     };
 
                     // Post to database
-                    fetch(`http://localhost:5000/api/v1/contacts/create-contact`, {
+                    fetch(`https://ctm-sercer.vercel.app/api/v1/contacts/create-contact`, {
                         method: "POST",
                         headers: {
                             "content-type": "application/json",
