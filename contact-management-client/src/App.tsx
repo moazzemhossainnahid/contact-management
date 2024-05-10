@@ -6,6 +6,7 @@ import AddContacts from "./pages/AddContacts/AddContacts";
 import AllContacts from "./pages/AllContacts/AllContacts";
 import Header from "./pages/Shared/Header/Header";
 import Footer from "./pages/Shared/Footer/Footer";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
