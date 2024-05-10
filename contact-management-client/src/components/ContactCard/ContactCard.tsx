@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { useGetAllContactsQuery } from '../../redux/api/apiSlice';
+import UpdateContactModal from '../Modals/UpdateContactModal';
 
 interface Contact {
-    _id:string
+    _id: string
     name: string;
     email: string;
     phone: string;
@@ -18,49 +19,50 @@ interface Props {
 
 
 const ContactCard: React.FC<Props> = ({ contact }) => {
-    const {refetch} = useGetAllContactsQuery({});
+    const { refetch } = useGetAllContactsQuery({});
+    const [updateContact, setUpdateContact] = useState<Contact | null>(null); // Updated here
 
 
-      // delete contact card
-  const handleDeleteContact = (id:string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this Offer Card!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, keep it",
-    }).then(async(result) => {
-      if (result.isConfirmed) {
-        const resData = await fetch(`http://localhost:5000/api/v1/contacts/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const res = await resData.json();
+    // delete contact card
+    const handleDeleteContact = (id: string) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will not be able to recover this Offer Card!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, keep it",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const resData = await fetch(`http://localhost:5000/api/v1/contacts/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const res = await resData.json();
 
-        console.log(res);
-        if (res.status === "Successful") {
-          Swal.fire({
-            icon: "success",
-            title: "Data Deleted Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          refetch();
-        }
-        else{
-          Swal.fire({
-            icon: "error",
-            title: "Deleted Failed",
-            showConfirmButton: false,
-            timer: 1500,
-          })
-        }
-      }
-    })
-  }
+                console.log(res);
+                if (res.status === "Successful") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Deleted Successfully",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    })
+                    refetch();
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Deleted Failed",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    })
+                }
+            }
+        })
+    }
 
     return (
         <div className="card card-compact bg-base-100 shadow-xl">
@@ -73,10 +75,17 @@ const ContactCard: React.FC<Props> = ({ contact }) => {
                 <p className='text-gray-600'>{contact?.phone}</p>
                 <p className='text-gray-500'>{contact?.address}</p>
                 <div className="card-actions flex items-center gap-3 justify-end">
-                    <button className="btn btn-sm p-2 btn-primary"><FaEdit/></button>
-                    <button onClick={() => handleDeleteContact(contact?._id)} className="btn btn-sm p-2 btn-accent"><FaTrashAlt/></button>
+                    <label htmlFor="update-contact-modal" onClick={() => setUpdateContact(contact)} className="btn btn-sm p-2 btn-primary"><FaEdit /></label>
+                    <button onClick={() => handleDeleteContact(contact?._id)} className="btn btn-sm p-2 btn-accent"><FaTrashAlt /></button>
                 </div>
             </div>
+            {
+                updateContact && (
+                    <UpdateContactModal
+                        updateContact={updateContact}
+                    ></UpdateContactModal>
+                )
+            }
         </div>
     );
 };
