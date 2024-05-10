@@ -11,7 +11,7 @@ exports.AddAContact = async (req, res) => {
         const contacts = await Contacts.create(contact);
         res.status(200).json({
             status: "Successful",
-            message: "Data added Successfully",
+            message: "Data Added Successfully",
             data: contacts
         });
     } catch (error) {
